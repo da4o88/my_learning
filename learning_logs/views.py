@@ -2,9 +2,30 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Topic
+from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 # Create your views here.
+def edit_entry(request, entry_id):
+    """Edit an existing entry"""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    if request.method != 'POST':
+        # Initial request, pre-fill form with current entry.
+        form = EntryForm(instance=entry)
+    else:
+        # POST data sumbitted, process data
+        form = EntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('topic', args=[topic.id]))
+    context = {
+        'entry': entry,
+        'topic': topic,
+        'form': form,
+    }
+    return render(request, 'learning_logs/edit_entry.html', context)
+
 
 def new_entry(request, topic_id):
     """Add a new entry for a particular topic."""
