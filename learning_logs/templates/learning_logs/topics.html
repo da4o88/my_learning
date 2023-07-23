@@ -4,15 +4,14 @@
 {% block title %}Topics{% endblock title %}
 
 {% block header %}
-    <h1>Topics</h1>
+  <h1>Topics</h1>
+  </br>
 {% endblock header %}
 
 {% block content %}
-  <p>Topics</p>
-
-  <ul>
+  <ul class="list-group">
     {% for topic in topics %}
-      <li>
+      <li class="list-group-item">
         <h3>
           <a href="{% url 'topic' topic.id %}">{{ topic }}</a>
         </h3>
@@ -21,6 +20,7 @@
       <li>No topics have been added yet.</li>
     {% endfor %}
   </ul>
-  <h3><a href="{% url 'new_topic' %}">Add a new topic:</a></h3>
+  </br>
+  <h3><a href="{% url 'new_topic' %}">Add a new topic</a></h3>
 
 {% endblock %}
