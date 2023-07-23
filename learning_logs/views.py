@@ -4,7 +4,10 @@ from django.urls import reverse
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
+
 # Create your views here.
+
+
 def edit_entry(request, entry_id):
     """Edit an existing entry"""
     entry = Entry.objects.get(id=entry_id)
