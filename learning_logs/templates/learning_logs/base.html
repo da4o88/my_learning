@@ -2,22 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{% block title %} {% endblock title %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
 </head>
 <body>
-    <p>
-        <a href="{% url 'index' %}">Learning Log </a> -
-        <a href="{% url 'topics' %}">Topics</a> -
-        {% if user.is_authenticated %}
-            Hello, {{ user.username }}.
-            <a href="{% url 'users:logout' %}">log out</a>
-        {% else %}
-            <a href="{% url 'users:register' %}">register</a>
-            <a href="{% url 'users:login' %}">log in</a>
-        {% endif %}
+    <!-- Static navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler"
+                        data-toggle="collapse" data-bs-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Learning Log</a>
+            </div>
 
-    </p>
-    {% block content %} {% endblock content %}
+            <div id="navbar" class="navbar-collapse collapse d-flex bd-highlight">
+                <div class="p-2 flex-grow-1 bd-highlight">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'topics' %}">Topics</a></li>
+                    </ul>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <ul class="nav navbar-nav">
+                        {% if user.is_authenticated %}
+                           <li class="nav-item"><a class="nav-link">Hello, {{ user.username }}.</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">log out</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">log in</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            {% block header %} {% endblock header %}
+        </div>
+        <div>
+            {% block content %} {% endblock content %}
+        </div>
+    </div>
+
 </body>
 </html>
